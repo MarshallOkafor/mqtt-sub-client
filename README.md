@@ -51,7 +51,8 @@ docker run -d -p 1883:1883 --name broker_server marshallokafor/mosquitto_with_pu
 ```
 python sub.py
 ```
-Additional Information
+
+# Additional Information
 This setup is ideal for development and testing environments where you need a ready-to-use MQTT setup. The Docker container runs an MQTT broker and a script that publishes dummy data to a test topic, which the sub.py can subscribe to directly.
 
 # License
