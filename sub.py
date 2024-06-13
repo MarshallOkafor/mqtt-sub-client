@@ -1,10 +1,13 @@
 # Using paho library
 import paho.mqtt.client as mqtt
+import sys
+import logging
+from time import sleep
 
 # Test connection variables
 BROKER = "test.mosquitto.org"
 PORT = 1883
-TOPIC = "LoRa/marshall-weather-data"
+TOPIC = "LoRa/NRG-lab-data"
 
 def on_connect(client, userdata, flags, rc):
     """
@@ -13,7 +16,10 @@ def on_connect(client, userdata, flags, rc):
     """
 
     print(f"Connect with result code {rc}")
-    client.subscribe(TOPIC)
+    if rc == 0:
+        client.subscribe(TOPIC, qos=0)
+    else:
+        print(f"Failed to connect, return code {rc}")
 
 def on_subscribe(client, userdata, mid, granted_qos):
     """
@@ -36,7 +42,16 @@ client.on_connect = on_connect
 client.on_subscribe = on_subscribe
 client.on_message = on_message 
 
-client.connect(BROKER, PORT, 60)
+try:
+    client.connect('localhost', PORT, 60)
+    print('Connected successfully to the Broker!')
+except Exception as e:
+    print(f'Unable to connect to Broker! Error: {e}')
+    sys.exit(-1)
 
-# Keep listening for incoming data
-client.loop_forever()
+# Start the network loop
+client.loop_start()
+
+# Keep the main thread running to catch errors
+while True:
+    sleep(1)

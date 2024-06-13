@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG)
 import sys
 import json
  
-BROKER = 'test.mosquitto.org'
+BROKER = 'localhost'
 PORT = 1883
 TOPIC = 'LoRa/NRG-lab-data'
 
@@ -37,8 +37,11 @@ if __name__ == '__main__':
     # Publish Pseudo data
     i = 0
     while (i < 3):
-        pub_client.publish(TOPIC, json.dumps(data), 0)
-        print('Data %d published successfully!' % i)
+        try:
+            pub_client.publish(TOPIC, json.dumps(data), 0)
+            print(f'Data {i} published successfully!')
+        except Exception as e:
+            print(f'Error: {e}')
         i += 1
         sleep(2)
     # Disconnect from the broker

@@ -1,2 +1,5 @@
 # Venv files
-/venv
+venv/
+
+# Docker files
+Docker/
