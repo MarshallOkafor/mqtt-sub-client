@@ -5,7 +5,7 @@ import logging
 from time import sleep
 
 # Test connection variables
-BROKER = "test.mosquitto.org"
+BROKER = "localhost"
 PORT = 1883
 TOPIC = "LoRa/NRG-lab-data"
 
@@ -43,7 +43,7 @@ client.on_subscribe = on_subscribe
 client.on_message = on_message 
 
 try:
-    client.connect('localhost', PORT, 60)
+    client.connect(BROKER, PORT, 60)
     print('Connected successfully to the Broker!')
 except Exception as e:
     print(f'Unable to connect to Broker! Error: {e}')
